@@ -7,7 +7,7 @@ Four open-source plugins for Claude Code, each targeting a different dimension o
 | | Product | What it does | Install |
 |---|---------|-------------|---------|
 | **Behavioral** | [**Tension**](https://github.com/agentweave/tension) | A dial for agent autonomy. | `claude plugin install agentweave/tension` |
-| **Temporal** | [**Shuttle**](https://github.com/agentweave/shuttle) | Queue tasks. Start the heartbeat. Walk away. | `claude plugin install agentweave/shuttle` |
+| **Temporal** | [**Shuttle**](https://github.com/agentweave/shuttle) | Give your agent a todo list. | `claude plugin install agentweave/shuttle` |
 | **Coordination** | [**Cortex**](https://github.com/agentweave/cortex) | Give your AI agents a chief of staff. | `claude plugin install agentweave/cortex` |
 | **Infrastructure** | [**Spindle**](https://github.com/agentweave/spindle) | Spin up agents that stay up. | *Coming soon* |
 
