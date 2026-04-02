@@ -1,11 +1,13 @@
 # agentweave
 
-Composable tools that get the human out of the loop.
+From in the loop to on the loop.
 
-Four open-source plugins for Claude Code, each targeting a different dimension of agent autonomy:
+You're **in the loop** when you approve every action, re-engage agents after each turn, manually dispatch work, and babysit progress. You're **on the loop** when you design the system, step back, and check in on your terms.
 
-| | Product | What it does | Install |
-|---|---------|-------------|---------|
+Agentweave is a suite of composable tools that move you from one to the other — each removing a different bottleneck that keeps you stuck.
+
+| | Product | Tagline | Install |
+|---|---------|---------|---------|
 | **Behavioral** | [**Tension**](https://github.com/agentweave/tension) | A dial for agent autonomy. | `claude plugin install agentweave/tension` |
 | **Temporal** | [**Shuttle**](https://github.com/agentweave/shuttle) | Give your agent a todo list. | `claude plugin install agentweave/shuttle` |
 | **Coordination** | [**Cortex**](https://github.com/agentweave/cortex) | Give your agents a chief of staff. | `claude plugin install agentweave/cortex` |
@@ -13,11 +15,17 @@ Four open-source plugins for Claude Code, each targeting a different dimension o
 
 ## How they compose
 
-No single tool solves everything. Pick what you need:
+Pick what you need. Each tool works standalone.
 
 - **Solo dev** — Tension + Shuttle. Dial in the behavior, queue up tasks, walk away.
-- **Agent team** — add Cortex. A chief of staff coordinates workers through a shared folder of markdown files.
+- **Agent team** — add Cortex. A chief of staff dispatches work to agents through a shared folder of markdown files.
 - **At scale** — add Spindle. Deploy agents to Kubernetes, talk to them via Telegram.
+
+## The idea
+
+Instead of operating agents directly, you engineer the **harness** — the behavioral boundaries, task queues, coordination protocols, and infrastructure that agents work within. Then you let them run.
+
+This is harness engineering: design the loop, step onto it, let agents take it from there.
 
 ## Philosophy
 
