@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0a14">
+<title>agentweave — From in the loop to on the loop</title>
+<meta name="description" content="Composable tools that move you from operating agents to designing the systems they work within. Tension, Shuttle, Cortex, Spindle.">
+<meta property="og:title" content="agentweave — From in the loop to on the loop">
+<meta property="og:description" content="Composable tools that move you from operating agents to designing the systems they work within.">
+<meta property="og:url" content="https://agentweave.github.io">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap">
+<style>
+  :root {
+    --bg: #0a0a14;
+    --bg-card: rgba(255,255,255,0.025);
+    --border: rgba(255,255,255,0.06);
+    --text: rgba(255,255,255,0.88);
+    --text-dim: rgba(255,255,255,0.45);
+    --text-dimmer: rgba(255,255,255,0.22);
+    --cyan: #00d2ff;
+    --purple: #7b61ff;
+    --pink: #ff6ec7;
+    --green: #5ae0b8;
+    --gradient: linear-gradient(135deg, #00d2ff, #7b61ff, #ff6ec7);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* Nav */
+  nav {
+    padding: 28px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+  .nav-brand svg { flex-shrink: 0; }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+  }
+
+  /* Hero */
+  .hero {
+    padding: 100px 0 80px;
+    text-align: center;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,97,255,0.07) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-logo {
+    margin-bottom: 40px;
+  }
+  .hero h1 {
+    font-size: clamp(44px, 7vw, 72px);
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 1.05;
+    margin-bottom: 28px;
+  }
+  .hero h1 .dim {
+    color: var(--text-dim);
+  }
+  .hero-sub {
+    font-size: 19px;
+    color: var(--text-dim);
+    font-weight: 300;
+    max-width: 580px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+  }
+  .hero-cta {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 14px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: border-color 0.2s;
+  }
+  .hero-cta:hover { border-color: rgba(255,255,255,0.15); }
+  .hero-cta span { color: var(--cyan); }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 auto;
+    max-width: 200px;
+  }
+
+  /* Section */
+  .section {
+    padding: 80px 0;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .section-header h2 {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+  }
+  .section-header p {
+    font-size: 17px;
+    color: var(--text-dim);
+    font-weight: 300;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* Loop comparison */
+  .loop-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 800px;
+    margin: 0 auto 80px;
+  }
+  .loop-card {
+    padding: 36px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--bg-card);
+  }
+  .loop-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .loop-card.in-loop h3 { color: var(--pink); }
+  .loop-card.on-loop h3 { color: var(--cyan); }
+  .loop-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .loop-card li {
+    font-size: 14px;
+    color: var(--text-dim);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .loop-card.in-loop li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 110, 199, 0.4);
+  }
+  .loop-card.on-loop li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(0, 210, 255, 0.4);
+  }
+
+  @media (max-width: 640px) {
+    .loop-compare { grid-template-columns: 1fr; }
+  }
+
+  /* Products */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .product {
+    padding: 36px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--bg-card);
+    transition: border-color 0.2s;
+  }
+  .product:hover { border-color: rgba(255,255,255,0.12); }
+  .product-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .product-name {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .product-dim {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-dimmer);
+  }
+  .product-tagline {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+  .product-desc {
+    font-size: 13px;
+    color: var(--text-dimmer);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .product-install {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    color: var(--text-dimmer);
+    letter-spacing: 0.3px;
+  }
+
+  .product.tension .product-name { color: var(--pink); }
+  .product.shuttle .product-name { color: var(--cyan); }
+  .product.cortex .product-name { color: var(--purple); }
+  .product.spindle .product-name { color: var(--green); }
+
+  @media (max-width: 640px) {
+    .products { grid-template-columns: 1fr; }
+  }
+
+  /* Compose */
+  .compose-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .compose-card {
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--bg-card);
+  }
+  .compose-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .compose-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .pill {
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border: 1px solid;
+  }
+  .pill-tension { color: var(--pink); border-color: rgba(255,110,199,0.25); }
+  .pill-shuttle { color: var(--cyan); border-color: rgba(0,210,255,0.25); }
+  .pill-cortex { color: var(--purple); border-color: rgba(123,97,255,0.25); }
+  .pill-spindle { color: var(--green); border-color: rgba(90,224,184,0.25); }
+  .compose-card p {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 640px) {
+    .compose-cards { grid-template-columns: 1fr; }
+  }
+
+  /* Harness */
+  .harness-content {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .harness-content p {
+    font-size: 17px;
+    color: var(--text-dim);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+  .harness-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    text-align: left;
+  }
+  .harness-item {
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-card);
+  }
+  .harness-item-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dimmer);
+    margin-bottom: 6px;
+  }
+  .harness-item-text {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 640px) {
+    .harness-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Philosophy */
+  .philosophy-list {
+    max-width: 600px;
+    margin: 0 auto;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .philosophy-list li {
+    font-size: 15px;
+    color: var(--text-dim);
+    font-weight: 300;
+    padding-left: 24px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .philosophy-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(123, 97, 255, 0.4);
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 80px 0;
+    text-align: center;
+  }
+  .cta-section h2 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+  }
+  .cta-section p {
+    font-size: 17px;
+    color: var(--text-dim);
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+  .cta-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cta-links a {
+    padding: 12px 24px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .cta-links a:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+
+  /* Footer */
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .footer-left span {
+    font-size: 13px;
+    color: var(--text-dimmer);
+  }
+  footer a {
+    font-size: 13px;
+    color: var(--text-dimmer);
+    text-decoration: none;
+  }
+  footer a:hover { color: var(--text-dim); }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<div class="container">
+  <nav>
+    <a href="/" class="nav-brand">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24" height="24">
+        <defs>
+          <linearGradient id="n1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00d2ff"/><stop offset="50%" style="stop-color:#7b61ff"/><stop offset="100%" style="stop-color:#ff6ec7"/></linearGradient>
+          <linearGradient id="n2" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#ff6ec7"/><stop offset="50%" style="stop-color:#7b61ff"/><stop offset="100%" style="stop-color:#00d2ff"/></linearGradient>
+        </defs>
+        <path d="M 120 140 C 180 200, 200 280, 256 256 C 312 232, 332 312, 392 372" fill="none" stroke="url(#n1)" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+        <path d="M 392 140 C 332 200, 312 280, 256 256 C 200 232, 180 312, 120 372" fill="none" stroke="url(#n2)" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+      </svg>
+      agentweave
+    </a>
+    <ul class="nav-links">
+      <li><a href="#products">Products</a></li>
+      <li><a href="#compose">Compose</a></li>
+      <li><a href="#idea">The idea</a></li>
+      <li><a href="https://github.com/agentweave">GitHub</a></li>
+    </ul>
+  </nav>
+</div>
+
+<!-- Hero -->
+<div class="container">
+  <div class="hero">
+    <div class="hero-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="80" height="80">
+        <defs>
+          <linearGradient id="h1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00d2ff"/><stop offset="50%" style="stop-color:#7b61ff"/><stop offset="100%" style="stop-color:#ff6ec7"/></linearGradient>
+          <linearGradient id="h2" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#ff6ec7"/><stop offset="50%" style="stop-color:#7b61ff"/><stop offset="100%" style="stop-color:#00d2ff"/></linearGradient>
+        </defs>
+        <path d="M 120 140 C 180 200, 200 280, 256 256 C 312 232, 332 312, 392 372" fill="none" stroke="url(#h1)" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+        <path d="M 392 140 C 332 200, 312 280, 256 256 C 200 232, 180 312, 120 372" fill="none" stroke="url(#h2)" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+        <circle cx="256" cy="256" r="8" fill="url(#h1)" opacity="0.95"/>
+      </svg>
+    </div>
+    <h1>From in the loop<br><span class="dim">to on the loop.</span></h1>
+    <p class="hero-sub">Composable tools that move you from operating agents to designing the systems they work within.</p>
+    <a href="https://github.com/agentweave" class="hero-cta">Browse on <span>GitHub</span></a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- In the loop vs On the loop -->
+<div class="container">
+  <div class="section">
+    <div class="section-header">
+      <h2>The shift</h2>
+      <p>You're not removed from the process. You're elevated above it.</p>
+    </div>
+    <div class="loop-compare">
+      <div class="loop-card in-loop">
+        <h3>In the loop</h3>
+        <ul>
+          <li>Approve every action</li>
+          <li>Re-engage agents after each turn</li>
+          <li>Manually dispatch work</li>
+          <li>Babysit progress</li>
+          <li>You are the bottleneck</li>
+        </ul>
+      </div>
+      <div class="loop-card on-loop">
+        <h3>On the loop</h3>
+        <ul>
+          <li>Design behavioral boundaries</li>
+          <li>Queue tasks, agents keep going</li>
+          <li>A chief of staff coordinates</li>
+          <li>Check in on your terms</li>
+          <li>You are the architect</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Products -->
+<div class="container" id="products">
+  <div class="section">
+    <div class="section-header">
+      <h2>Four tools, four bottlenecks</h2>
+      <p>Each product removes a different reason you're stuck in the loop.</p>
+    </div>
+    <div class="products">
+      <div class="product tension">
+        <div class="product-top">
+          <span class="product-name">Tension</span>
+          <span class="product-dim">Behavioral</span>
+        </div>
+        <div class="product-tagline">A dial for agent autonomy.</div>
+        <div class="product-desc">Fine-tune how proactive vs consultative your agent is. Four profiles from tight (you drive) to free (full ownership). Pure markdown, zero config.</div>
+        <span class="product-install">claude plugin install agentweave/tension</span>
+      </div>
+      <div class="product shuttle">
+        <div class="product-top">
+          <span class="product-name">Shuttle</span>
+          <span class="product-dim">Temporal</span>
+        </div>
+        <div class="product-tagline">Give your agent a todo list.</div>
+        <div class="product-desc">Task-aware heartbeat that keeps agents working through a queue. Shell pre-check skips idle ticks. Zero tokens burned when there's nothing to do.</div>
+        <span class="product-install">claude plugin install agentweave/shuttle</span>
+      </div>
+      <div class="product cortex">
+        <div class="product-top">
+          <span class="product-name">Cortex</span>
+          <span class="product-dim">Coordination</span>
+        </div>
+        <div class="product-tagline">Give your agents a chief of staff.</div>
+        <div class="product-desc">Multi-agent coordination through a shared folder of markdown files. One coordinator dispatches work, workers execute. Open protocol, any runtime.</div>
+        <span class="product-install">claude plugin install agentweave/cortex</span>
+      </div>
+      <div class="product spindle">
+        <div class="product-top">
+          <span class="product-name">Spindle</span>
+          <span class="product-dim">Infrastructure</span>
+        </div>
+        <div class="product-tagline">Spin up agents that stay up.</div>
+        <div class="product-desc">Deploy agents to Kubernetes as persistent services. Agents survive restarts, communicate via Telegram, and run 24/7 without your laptop.</div>
+        <span class="product-install" style="color: var(--text-dimmer); background: none; padding: 0; font-style: italic;">Coming soon</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Compose -->
+<div class="container" id="compose">
+  <div class="section">
+    <div class="section-header">
+      <h2>Pick what you need</h2>
+      <p>Every tool works standalone. Compose when the problem demands it.</p>
+    </div>
+    <div class="compose-cards">
+      <div class="compose-card">
+        <h3>Solo dev</h3>
+        <div class="compose-pills">
+          <span class="pill pill-tension">Tension</span>
+          <span class="pill pill-shuttle">Shuttle</span>
+        </div>
+        <p>Dial in the behavior, queue up tasks, walk away. Your agent works through the list autonomously and idles when done.</p>
+      </div>
+      <div class="compose-card">
+        <h3>Agent team</h3>
+        <div class="compose-pills">
+          <span class="pill pill-tension">Tension</span>
+          <span class="pill pill-shuttle">Shuttle</span>
+          <span class="pill pill-cortex">Cortex</span>
+        </div>
+        <p>A chief of staff dispatches work to specialized agents through markdown files. Each worker has its own task queue powered by Shuttle.</p>
+      </div>
+      <div class="compose-card">
+        <h3>At scale</h3>
+        <div class="compose-pills">
+          <span class="pill pill-tension">Tension</span>
+          <span class="pill pill-shuttle">Shuttle</span>
+          <span class="pill pill-cortex">Cortex</span>
+          <span class="pill pill-spindle">Spindle</span>
+        </div>
+        <p>Deploy agents to Kubernetes. They run as services, accessible via Telegram, surviving restarts. Full autonomous team in the cloud.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- The idea -->
+<div class="container" id="idea">
+  <div class="section">
+    <div class="section-header">
+      <h2>Harness engineering</h2>
+      <p>Design the system. Let agents run within it.</p>
+    </div>
+    <div class="harness-content">
+      <p>Instead of operating agents directly, you engineer the <strong style="color: var(--text);">harness</strong> — the behavioral boundaries, task queues, coordination protocols, and infrastructure that agents work within. Then you step back.</p>
+      <div class="harness-grid">
+        <div class="harness-item">
+          <div class="harness-item-label">Tension</div>
+          <div class="harness-item-text">Behavioral boundaries — how much initiative the agent takes</div>
+        </div>
+        <div class="harness-item">
+          <div class="harness-item-label">Shuttle</div>
+          <div class="harness-item-text">Task boundaries — what to work on, when to idle</div>
+        </div>
+        <div class="harness-item">
+          <div class="harness-item-label">Cortex</div>
+          <div class="harness-item-text">Coordination boundaries — who does what, how agents communicate</div>
+        </div>
+        <div class="harness-item">
+          <div class="harness-item-label">Spindle</div>
+          <div class="harness-item-text">Infrastructure boundaries — where agents run, what resources they get</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Philosophy -->
+<div class="container">
+  <div class="section">
+    <div class="section-header">
+      <h2>Philosophy</h2>
+    </div>
+    <ul class="philosophy-list">
+      <li>Skills are prompts, not code. No runtime, no build step.</li>
+      <li>Plain markdown over custom formats. YAML frontmatter over config files.</li>
+      <li>Each tool works standalone. Compose only when you need to.</li>
+      <li>Open source, MIT licensed, no telemetry.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<div class="container">
+  <div class="cta-section">
+    <h2>Start anywhere</h2>
+    <p>Pick the bottleneck that hurts the most. One plugin, one install.</p>
+    <div class="cta-links">
+      <a href="https://github.com/agentweave/tension">Tension</a>
+      <a href="https://github.com/agentweave/shuttle">Shuttle</a>
+      <a href="https://github.com/agentweave/cortex">Cortex</a>
+      <a href="https://github.com/agentweave">GitHub</a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="container">
+  <footer>
+    <div class="footer-left">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18">
+        <defs>
+          <linearGradient id="f1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00d2ff"/><stop offset="50%" style="stop-color:#7b61ff"/><stop offset="100%" style="stop-color:#ff6ec7"/></linearGradient>
+          <linearGradient id="f2" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#ff6ec7"/><stop offset="50%" style="stop-color:#7b61ff"/><stop offset="100%" style="stop-color:#00d2ff"/></linearGradient>
+        </defs>
+        <path d="M 120 140 C 180 200, 200 280, 256 256 C 312 232, 332 312, 392 372" fill="none" stroke="url(#f1)" stroke-width="8" stroke-linecap="round" opacity="0.5"/>
+        <path d="M 392 140 C 332 200, 312 280, 256 256 C 200 232, 180 312, 120 372" fill="none" stroke="url(#f2)" stroke-width="8" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+      <span>MIT License</span>
+    </div>
+    <a href="https://github.com/agentweave">github.com/agentweave</a>
+  </footer>
+</div>
+
+</body>
+</html>
