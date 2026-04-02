@@ -8,6 +8,7 @@
 <meta name="description" content="Composable tools that move you from operating agents to designing the systems they work within. Tension, Shuttle, Cortex, Spindle.">
 <meta property="og:title" content="agentweave — From in the loop to on the loop">
 <meta property="og:description" content="Composable tools that move you from operating agents to designing the systems they work within.">
+<meta property="og:image" content="https://raw.githubusercontent.com/agentweave/.github/main/assets/internal/promo-poster.png">
 <meta property="og:url" content="https://agentweave.github.io">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -285,6 +286,11 @@
   .product.shuttle .product-name { color: var(--cyan); }
   .product.cortex .product-name { color: var(--purple); }
   .product.spindle .product-name { color: var(--green); }
+  .product-coming-soon {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-dimmer);
+  }
 
   @media (max-width: 640px) {
     .products { grid-template-columns: 1fr; }
@@ -378,34 +384,6 @@
     .harness-grid { grid-template-columns: 1fr; }
   }
 
-  /* Philosophy */
-  .philosophy-list {
-    max-width: 600px;
-    margin: 0 auto;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .philosophy-list li {
-    font-size: 15px;
-    color: var(--text-dim);
-    font-weight: 300;
-    padding-left: 24px;
-    position: relative;
-    line-height: 1.6;
-  }
-  .philosophy-list li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: rgba(123, 97, 255, 0.4);
-  }
-
   /* CTA */
   .cta-section {
     padding: 80px 0;
@@ -464,6 +442,15 @@
     text-decoration: none;
   }
   footer a:hover { color: var(--text-dim); }
+
+  .philosophy-strip {
+    font-size: 12px;
+    color: var(--text-dimmer);
+    text-align: center;
+    padding: 24px 0;
+    letter-spacing: 0.3px;
+    line-height: 1.8;
+  }
 </style>
 </head>
 <body>
@@ -506,7 +493,7 @@
       </svg>
     </div>
     <h1>From in the loop<br><span class="dim">to on the loop.</span></h1>
-    <p class="hero-sub">Composable tools that move you from operating agents to designing the systems they work within.</p>
+    <p class="hero-sub">Composable Claude Code plugins that move you from operating agents to designing the systems they work within.</p>
     <a href="https://github.com/agentweave" class="hero-cta">Browse on <span>GitHub</span></a>
   </div>
 </div>
@@ -525,19 +512,19 @@
         <h3>In the loop</h3>
         <ul>
           <li>Approve every action</li>
-          <li>Re-engage agents after each turn</li>
-          <li>Manually dispatch work</li>
-          <li>Babysit progress</li>
+          <li>Re-engage after each turn</li>
+          <li>Dispatch work manually</li>
+          <li>Run agents on your laptop</li>
           <li>You are the bottleneck</li>
         </ul>
       </div>
       <div class="loop-card on-loop">
         <h3>On the loop</h3>
         <ul>
-          <li>Design behavioral boundaries</li>
+          <li>Set the autonomy dial once</li>
           <li>Queue tasks, agents keep going</li>
-          <li>A chief of staff coordinates</li>
-          <li>Check in on your terms</li>
+          <li>A chief of staff dispatches for you</li>
+          <li>Agents run in the cloud, 24/7</li>
           <li>You are the architect</li>
         </ul>
       </div>
@@ -562,7 +549,7 @@
         </div>
         <div class="product-tagline">A dial for agent autonomy.</div>
         <div class="product-desc">Fine-tune how proactive vs consultative your agent is. Four profiles from tight (you drive) to free (full ownership). Pure markdown, zero config.</div>
-        <span class="product-install">claude plugin install agentweave/tension</span>
+        <span class="product-install">claude plugin install tension@agentweave</span>
       </div>
       <div class="product shuttle">
         <div class="product-top">
@@ -571,7 +558,7 @@
         </div>
         <div class="product-tagline">Give your agent a todo list.</div>
         <div class="product-desc">Task-aware heartbeat that keeps agents working through a queue. Shell pre-check skips idle ticks. Zero tokens burned when there's nothing to do.</div>
-        <span class="product-install">claude plugin install agentweave/shuttle</span>
+        <span class="product-install">claude plugin install shuttle@agentweave</span>
       </div>
       <div class="product cortex">
         <div class="product-top">
@@ -580,7 +567,7 @@
         </div>
         <div class="product-tagline">Give your agents a chief of staff.</div>
         <div class="product-desc">Multi-agent coordination through a shared folder of markdown files. One coordinator dispatches work, workers execute. Open protocol, any runtime.</div>
-        <span class="product-install">claude plugin install agentweave/cortex</span>
+        <span class="product-install">claude plugin install cortex@agentweave</span>
       </div>
       <div class="product spindle">
         <div class="product-top">
@@ -589,7 +576,7 @@
         </div>
         <div class="product-tagline">Spin up agents that stay up.</div>
         <div class="product-desc">Deploy agents to Kubernetes as persistent services. Agents survive restarts, communicate via Telegram, and run 24/7 without your laptop.</div>
-        <span class="product-install" style="color: var(--text-dimmer); background: none; padding: 0; font-style: italic;">Coming soon</span>
+        <span class="product-coming-soon">Coming soon</span>
       </div>
     </div>
   </div>
@@ -646,43 +633,18 @@
       <p>Design the system. Let agents run within it.</p>
     </div>
     <div class="harness-content">
-      <p>Instead of operating agents directly, you engineer the <strong style="color: var(--text);">harness</strong> — the behavioral boundaries, task queues, coordination protocols, and infrastructure that agents work within. Then you step back.</p>
+      <p>Instead of operating agents directly, you engineer the <strong style="color: var(--text);">harness</strong> — the system agents work within. You decide how they behave, what they work on, how they coordinate, and where they run. Then you step back and let the harness do the work.</p>
       <div class="harness-grid">
         <div class="harness-item">
-          <div class="harness-item-label">Tension</div>
-          <div class="harness-item-text">Behavioral boundaries — how much initiative the agent takes</div>
+          <div class="harness-item-label">Before</div>
+          <div class="harness-item-text">You run agents, tell them what to do, watch them work, re-engage when they stop, repeat</div>
         </div>
         <div class="harness-item">
-          <div class="harness-item-label">Shuttle</div>
-          <div class="harness-item-text">Task boundaries — what to work on, when to idle</div>
-        </div>
-        <div class="harness-item">
-          <div class="harness-item-label">Cortex</div>
-          <div class="harness-item-text">Coordination boundaries — who does what, how agents communicate</div>
-        </div>
-        <div class="harness-item">
-          <div class="harness-item-label">Spindle</div>
-          <div class="harness-item-text">Infrastructure boundaries — where agents run, what resources they get</div>
+          <div class="harness-item-label">After</div>
+          <div class="harness-item-text">You design the harness once — behavior, tasks, coordination, infrastructure — and check in when you choose</div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- Philosophy -->
-<div class="container">
-  <div class="section">
-    <div class="section-header">
-      <h2>Philosophy</h2>
-    </div>
-    <ul class="philosophy-list">
-      <li>Skills are prompts, not code. No runtime, no build step.</li>
-      <li>Plain markdown over custom formats. YAML frontmatter over config files.</li>
-      <li>Each tool works standalone. Compose only when you need to.</li>
-      <li>Open source, MIT licensed, no telemetry.</li>
-    </ul>
   </div>
 </div>
 
@@ -704,6 +666,9 @@
 
 <!-- Footer -->
 <div class="container">
+  <div class="philosophy-strip">
+    Skills are prompts, not code &middot; Plain markdown over custom formats &middot; Each tool works standalone &middot; Open source, MIT, no telemetry
+  </div>
   <footer>
     <div class="footer-left">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18">
