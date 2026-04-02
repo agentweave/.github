@@ -166,65 +166,65 @@
     margin: 0 auto;
   }
 
-  /* Loop comparison */
-  .loop-compare {
+  /* Shift table */
+  .shift-table {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .shift-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    max-width: 800px;
-    margin: 0 auto 80px;
-  }
-  .loop-card {
-    padding: 36px;
-    border: 1px solid var(--border);
-    border-radius: 16px;
+    grid-template-columns: 1fr 40px 1fr 120px;
+    align-items: center;
+    padding: 16px 24px;
     background: var(--bg-card);
+    border-radius: 10px;
   }
-  .loop-card h3 {
-    font-size: 14px;
+  .shift-header-row {
+    background: none;
+    padding-bottom: 8px;
+  }
+  .shift-in, .shift-on, .shift-tool-header {
+    font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 20px;
   }
-  .loop-card.in-loop h3 { color: var(--pink); }
-  .loop-card.on-loop h3 { color: var(--cyan); }
-  .loop-card ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .loop-card li {
-    font-size: 14px;
+  .shift-in { color: var(--pink); }
+  .shift-on { color: var(--cyan); }
+  .shift-tool-header { color: var(--text-dimmer); text-align: right; }
+  .shift-in-text {
+    font-size: 15px;
     color: var(--text-dim);
-    padding-left: 20px;
-    position: relative;
-    line-height: 1.5;
   }
-  .loop-card.in-loop li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 8px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(255, 110, 199, 0.4);
+  .shift-arrow-icon {
+    text-align: center;
+    color: var(--text-dimmer);
+    font-size: 14px;
   }
-  .loop-card.on-loop li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 8px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(0, 210, 255, 0.4);
+  .shift-on-text {
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 500;
   }
+  .shift-tool {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: right;
+  }
+  .tension-text { color: var(--pink); }
+  .shuttle-text { color: var(--cyan); }
+  .cortex-text { color: var(--purple); }
+  .spindle-text { color: var(--green); }
 
   @media (max-width: 640px) {
-    .loop-compare { grid-template-columns: 1fr; }
+    .shift-row { grid-template-columns: 1fr; gap: 8px; text-align: center; }
+    .shift-arrow-icon { display: none; }
+    .shift-tool { text-align: center; }
+    .shift-tool-header { text-align: center; }
+    .shift-header-row { display: none; }
   }
 
   /* Products */
@@ -341,49 +341,6 @@
     .compose-cards { grid-template-columns: 1fr; }
   }
 
-  /* Harness */
-  .harness-content {
-    max-width: 680px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .harness-content p {
-    font-size: 17px;
-    color: var(--text-dim);
-    font-weight: 300;
-    line-height: 1.7;
-    margin-bottom: 40px;
-  }
-  .harness-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    text-align: left;
-  }
-  .harness-item {
-    padding: 20px 24px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--bg-card);
-  }
-  .harness-item-label {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-dimmer);
-    margin-bottom: 6px;
-  }
-  .harness-item-text {
-    font-size: 14px;
-    color: var(--text-dim);
-    line-height: 1.5;
-  }
-
-  @media (max-width: 640px) {
-    .harness-grid { grid-template-columns: 1fr; }
-  }
-
   /* CTA */
   .cta-section {
     padding: 80px 0;
@@ -472,7 +429,6 @@
     <ul class="nav-links">
       <li><a href="#products">Products</a></li>
       <li><a href="#compose">Compose</a></li>
-      <li><a href="#idea">The idea</a></li>
       <li><a href="https://github.com/agentweave">GitHub</a></li>
     </ul>
   </nav>
@@ -493,40 +449,50 @@
       </svg>
     </div>
     <h1>From in the loop<br><span class="dim">to on the loop.</span></h1>
-    <p class="hero-sub">Composable Claude Code plugins that move you from operating agents to designing the systems they work within.</p>
+    <p class="hero-sub">Composable Claude Code plugins. Each one removes a bottleneck that keeps you stuck operating agents instead of designing systems.</p>
     <a href="https://github.com/agentweave" class="hero-cta">Browse on <span>GitHub</span></a>
   </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- In the loop vs On the loop -->
+<!-- The shift -->
 <div class="container">
   <div class="section">
     <div class="section-header">
       <h2>The shift</h2>
       <p>You're not removed from the process. You're elevated above it.</p>
     </div>
-    <div class="loop-compare">
-      <div class="loop-card in-loop">
-        <h3>In the loop</h3>
-        <ul>
-          <li>Approve every action</li>
-          <li>Re-engage after each turn</li>
-          <li>Dispatch work manually</li>
-          <li>Run agents on your laptop</li>
-          <li>You are the bottleneck</li>
-        </ul>
+    <div class="shift-table">
+      <div class="shift-row shift-header-row">
+        <div class="shift-cell shift-in">In the loop</div>
+        <div class="shift-cell shift-arrow"></div>
+        <div class="shift-cell shift-on">On the loop</div>
+        <div class="shift-cell shift-tool-header">Tool</div>
       </div>
-      <div class="loop-card on-loop">
-        <h3>On the loop</h3>
-        <ul>
-          <li>Set the autonomy dial once</li>
-          <li>Queue tasks, agents keep going</li>
-          <li>A chief of staff dispatches for you</li>
-          <li>Agents run in the cloud, 24/7</li>
-          <li>You are the architect</li>
-        </ul>
+      <div class="shift-row">
+        <div class="shift-cell shift-in-text">Approve every action</div>
+        <div class="shift-cell shift-arrow-icon">&rarr;</div>
+        <div class="shift-cell shift-on-text">Set the autonomy dial</div>
+        <div class="shift-cell shift-tool tension-text">Tension</div>
+      </div>
+      <div class="shift-row">
+        <div class="shift-cell shift-in-text">Re-engage after each turn</div>
+        <div class="shift-cell shift-arrow-icon">&rarr;</div>
+        <div class="shift-cell shift-on-text">Queue tasks, agents keep going</div>
+        <div class="shift-cell shift-tool shuttle-text">Shuttle</div>
+      </div>
+      <div class="shift-row">
+        <div class="shift-cell shift-in-text">Dispatch work manually</div>
+        <div class="shift-cell shift-arrow-icon">&rarr;</div>
+        <div class="shift-cell shift-on-text">A chief of staff dispatches</div>
+        <div class="shift-cell shift-tool cortex-text">Cortex</div>
+      </div>
+      <div class="shift-row">
+        <div class="shift-cell shift-in-text">Agents live on your laptop</div>
+        <div class="shift-cell shift-arrow-icon">&rarr;</div>
+        <div class="shift-cell shift-on-text">Agents run in the cloud, 24/7</div>
+        <div class="shift-cell shift-tool spindle-text">Spindle</div>
       </div>
     </div>
   </div>
@@ -538,8 +504,8 @@
 <div class="container" id="products">
   <div class="section">
     <div class="section-header">
-      <h2>Four tools, four bottlenecks</h2>
-      <p>Each product removes a different reason you're stuck in the loop.</p>
+      <h2>Four tools</h2>
+      <p>Each one removes a bottleneck. Install only what you need.</p>
     </div>
     <div class="products">
       <div class="product tension">
@@ -548,7 +514,7 @@
           <span class="product-dim">Behavioral</span>
         </div>
         <div class="product-tagline">A dial for agent autonomy.</div>
-        <div class="product-desc">Fine-tune how proactive vs consultative your agent is. Four profiles from tight (you drive) to free (full ownership). Pure markdown, zero config.</div>
+        <div class="product-desc">Set it to "free" and your agent takes full ownership. Set it to "tight" and it asks before every move. One line in a markdown file.</div>
         <span class="product-install">claude plugin install tension@agentweave</span>
       </div>
       <div class="product shuttle">
@@ -557,7 +523,7 @@
           <span class="product-dim">Temporal</span>
         </div>
         <div class="product-tagline">Give your agent a todo list.</div>
-        <div class="product-desc">Task-aware heartbeat that keeps agents working through a queue. Shell pre-check skips idle ticks. Zero tokens burned when there's nothing to do.</div>
+        <div class="product-desc">Queue five tasks, start the heartbeat, come back to find them done. Skips idle ticks automatically — zero tokens burned when there's nothing left.</div>
         <span class="product-install">claude plugin install shuttle@agentweave</span>
       </div>
       <div class="product cortex">
@@ -566,7 +532,7 @@
           <span class="product-dim">Coordination</span>
         </div>
         <div class="product-tagline">Give your agents a chief of staff.</div>
-        <div class="product-desc">Multi-agent coordination through a shared folder of markdown files. One coordinator dispatches work, workers execute. Open protocol, any runtime.</div>
+        <div class="product-desc">One coordinator manages the team through markdown files. You talk to the chief, it talks to the workers. Open protocol — any agent runtime can join.</div>
         <span class="product-install">claude plugin install cortex@agentweave</span>
       </div>
       <div class="product spindle">
@@ -575,7 +541,7 @@
           <span class="product-dim">Infrastructure</span>
         </div>
         <div class="product-tagline">Spin up agents that stay up.</div>
-        <div class="product-desc">Deploy agents to Kubernetes as persistent services. Agents survive restarts, communicate via Telegram, and run 24/7 without your laptop.</div>
+        <div class="product-desc">Your agent runs in a K8s pod, survives restarts, and you talk to it from your phone via Telegram. Close your laptop — it's still there.</div>
         <span class="product-coming-soon">Coming soon</span>
       </div>
     </div>
@@ -625,36 +591,11 @@
 
 <div class="divider"></div>
 
-<!-- The idea -->
-<div class="container" id="idea">
-  <div class="section">
-    <div class="section-header">
-      <h2>Harness engineering</h2>
-      <p>Design the system. Let agents run within it.</p>
-    </div>
-    <div class="harness-content">
-      <p>Instead of operating agents directly, you engineer the <strong style="color: var(--text);">harness</strong> — the system agents work within. You decide how they behave, what they work on, how they coordinate, and where they run. Then you step back and let the harness do the work.</p>
-      <div class="harness-grid">
-        <div class="harness-item">
-          <div class="harness-item-label">Before</div>
-          <div class="harness-item-text">You run agents, tell them what to do, watch them work, re-engage when they stop, repeat</div>
-        </div>
-        <div class="harness-item">
-          <div class="harness-item-label">After</div>
-          <div class="harness-item-text">You design the harness once — behavior, tasks, coordination, infrastructure — and check in when you choose</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
 <!-- CTA -->
 <div class="container">
   <div class="cta-section">
     <h2>Start anywhere</h2>
-    <p>Pick the bottleneck that hurts the most. One plugin, one install.</p>
+    <p>Pick the bottleneck that hurts the most. One bottleneck, one plugin.</p>
     <div class="cta-links">
       <a href="https://github.com/agentweave/tension">Tension</a>
       <a href="https://github.com/agentweave/shuttle">Shuttle</a>

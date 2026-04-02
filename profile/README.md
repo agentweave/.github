@@ -6,7 +6,7 @@ You're **in the loop** when you approve every action, re-engage agents after eac
 
 Agentweave is a suite of composable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugins that move you from one to the other — each removing a different bottleneck that keeps you stuck.
 
-| | Product | Tagline | Install |
+| Bottleneck | Product | Tagline | Install |
 |---|---------|---------|---------|
 | **Behavioral** | [**Tension**](https://github.com/agentweave/tension) | A dial for agent autonomy. | `claude plugin install tension@agentweave` |
 | **Temporal** | [**Shuttle**](https://github.com/agentweave/shuttle) | Give your agent a todo list. | `claude plugin install shuttle@agentweave` |
@@ -23,9 +23,7 @@ Pick what you need. Each tool works standalone.
 
 ## The idea
 
-Instead of operating agents directly, you engineer the **harness** — the behavioral boundaries, task queues, coordination protocols, and infrastructure that agents work within. Then you let them run.
-
-This is harness engineering: design the loop, let agents run it.
+Instead of operating agents directly, you engineer the **harness** — the behavioral boundaries, task queues, coordination protocols, and infrastructure that agents work within. Then you step back and let agents run.
 
 ## Philosophy
 
@@ -34,4 +32,4 @@ This is harness engineering: design the loop, let agents run it.
 - Each tool works standalone. Compose only when you need to.
 - Open source, MIT licensed, no telemetry.
 
-[agentweave.github.io](https://agentweave.github.io)
+Learn more at [agentweave.github.io](https://agentweave.github.io).
